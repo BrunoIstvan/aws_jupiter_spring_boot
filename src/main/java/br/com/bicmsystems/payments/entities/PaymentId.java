@@ -3,12 +3,14 @@ package br.com.bicmsystems.payments.entities;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBRangeKey;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class PaymentId implements Serializable {
 
     private Long paymentId;

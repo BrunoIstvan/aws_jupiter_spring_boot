@@ -23,35 +23,63 @@ import static org.mockito.Mockito.*;
 @ExtendWith(SpringExtension.class)
 class PaymentServiceTest {
 
-    @TestConfiguration
-    static class PaymentServiceConfiguration {
-        @Bean
-        public PaymentService paymentService() { return new PaymentService(); }
-    }
+    List<PaymentModel> expectedModel = Arrays.asList(
+            PaymentModel.builder()
+                    .id(PaymentId.builder()
+                            .paymentId(1L)
+                            .pvCode("1").build())
+                    .bankCode(111)
+                    .accountNumber(11111)
+                    .agency(1)
+                    .brandCode(1)
+                    .amount(new BigDecimal(1000.0))
+                    .discount(new BigDecimal(100))
+                    .netAmount(new BigDecimal(900))
+                    .type("CREDIT").build(),
+            PaymentModel.builder()
+                    .id(PaymentId.builder()
+                            .paymentId(2L)
+                            .pvCode("1").build())
+                    .bankCode(111)
+                    .accountNumber(11111)
+                    .agency(1)
+                    .brandCode(1)
+                    .amount(new BigDecimal(5000.0))
+                    .discount(new BigDecimal(100))
+                    .netAmount(new BigDecimal(4900))
+                    .type("CREDIT").build()
+    );
+    List<PaymentDTO> expectedDTO = Arrays.asList(
+            PaymentDTO.builder()
+                    .paymentId(1L)
+                    .pvCode("1")
+                    .bankCode(111)
+                    .accountNumber(11111)
+                    .agency(1)
+                    .brandCode(1)
+                    .amount((new BigDecimal(1000.0)).doubleValue())
+                    .discount((new BigDecimal(100)).doubleValue())
+                    .netAmount((new BigDecimal(900)).doubleValue())
+                    .type("CREDIT")
+                    .negotiations(new ArrayList<>()).build(),
+            PaymentDTO.builder()
+                    .paymentId(2L)
+                    .pvCode("1")
+                    .bankCode(111)
+                    .accountNumber(11111)
+                    .agency(1)
+                    .brandCode(1)
+                    .amount((new BigDecimal(5000.0)).doubleValue())
+                    .discount((new BigDecimal(100)).doubleValue())
+                    .netAmount((new BigDecimal(4900)).doubleValue())
+                    .type("CREDIT")
+                    .negotiations(new ArrayList<>()).build()
+    );
 
     @Autowired
     private PaymentService paymentService;
-
     @MockBean
     private PaymentRepository paymentRepository;
-
-    List<PaymentModel> expectedModel = Arrays.asList(
-            new PaymentModel(new PaymentId(1L, "1"),
-                    1, 1, new BigDecimal(1000.0), 233, 3,
-                    new BigDecimal(100), new BigDecimal(900), "CREDIT"),
-            new PaymentModel(new PaymentId(2L, "1"),
-                    1, 1, new BigDecimal(5000.0), 233, 3,
-                    new BigDecimal(100), new BigDecimal(4900), "CREDIT")
-    );
-
-    List<PaymentDTO> expectedDTO = Arrays.asList(
-            new PaymentDTO(1L, "1", 1, 1, new BigDecimal(1000.0),
-                    233, 3, new BigDecimal(100), new BigDecimal(900),
-                    "CREDIT", new ArrayList<>()),
-            new PaymentDTO(2L, "1", 1, 1, new BigDecimal(5000.0),
-                    233, 3, new BigDecimal(100), new BigDecimal(4900),
-                    "CREDIT", new ArrayList<>())
-    );
 
     @Test
     void findByPvCode() {
@@ -87,6 +115,14 @@ class PaymentServiceTest {
 
     @Test
     void findAll() {
+    }
+
+    @TestConfiguration
+    static class PaymentServiceConfiguration {
+        @Bean
+        public PaymentService paymentService() {
+            return new PaymentService();
+        }
     }
 
 }

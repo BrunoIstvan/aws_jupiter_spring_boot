@@ -4,7 +4,6 @@ import br.com.bicmsystems.payments.validators.OnlyAlphanumericConstraint;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 @Getter
@@ -12,6 +11,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@ToString
 public class PaymentDTO {
 
     private Long paymentId;
@@ -19,11 +19,11 @@ public class PaymentDTO {
     private String pvCode;
     private Integer accountNumber;
     private Integer agency;
-    private BigDecimal amount;
     private Integer bankCode;
     private Integer brandCode;
-    private BigDecimal discount;
-    private BigDecimal netAmount;
+    private Double amount;
+    private Double discount;
+    private Double netAmount;
     @OnlyAlphanumericConstraint
     private String type;
 
